@@ -79,13 +79,38 @@ mindar-image-target="targetIndex: 2">
   
 </a-scene>
 
+<script>
+
 const music = document.getElementById("bgMusic");
+const targets = document.querySelectorAll('[mindar-image-target]');
 
-const target = document.querySelector('[1]');
+let visibleTargets = 0;
 
-target.addEventListener( 'targetFound', () => { music.play(); });
+targets.forEach(target => {
+  target.addEventListener('targetFound',() => 
+    {
+      visibleTargets++;
+      if(visibleTargets === 1)
+      {
+        music.play();
+      }
+    }
+  );
 
-target.addEventListener( 'targetLost', () => { music.pause();});
+  target.addEventListener('targetLost',() =>
+    {
+      visibleTargets--;
+
+      if(visibleTargets <= 0)
+      {
+        visibleTargets = 0;
+        music.pause();
+      }
+    }
+  );
+});
+
+</script>
   
 </body>
 
